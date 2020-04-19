@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TheGreatestReminder</string>
+    <string name="list_item_delete">Delete</string>
+    <string name="list_item_edit">Edit</string>
 </resources>
