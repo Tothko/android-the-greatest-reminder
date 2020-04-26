@@ -2,14 +2,11 @@ package com.example.thegreatestreminder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Calendar;
+import com.example.thegreatestreminder.Utils.Helpers.ControlsHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -21,8 +18,6 @@ public class DetailActivity extends AppCompatActivity {
     Button btnSave;
     Button btnAddNotification;
     Button btnAddAction;
-
-    DatePickerDialog picker;
 
     private void setupControlsReferences(){
         etName = findViewById(R.id.etReminderName);
@@ -42,21 +37,7 @@ public class DetailActivity extends AppCompatActivity {
 
         setupControlsReferences();
 
-        setupEditDateBehaviour();
-    }
-
-    private void setupEditDateBehaviour() {
-        etDate.setInputType(InputType.TYPE_CLASS_DATETIME);
-
-        etDate.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH);
-            int year = calendar.get(Calendar.YEAR);
-            // date picker dialog
-            picker = new DatePickerDialog(DetailActivity.this,
-                    (view, year1, monthOfYear, dayOfMonth) -> etDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1), year, month, day);
-            picker.show();
-        });
+        ControlsHelper.setupEditDateBehaviour(this,etDate);
+        ControlsHelper.setupEditTimeBehaviour(this,etTime);
     }
 }
