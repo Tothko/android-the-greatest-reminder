@@ -3,4 +3,15 @@
     <string name="list_item_delete">Delete</string>
     <string name="list_item_edit">Edit</string>
     <string name="add_reminder">Add</string>
+    <string name="txtName">Name</string>
+    <string name="txtDetail">Detail</string>
+    <string name="txtTriggerDate">Trigger Date</string>
+    <string name="txtReminderTime">Trigger Time</string>
+    <string name="txtNotifyBefore">Notify before</string>
+    <string name="txtNotifications">Notifications</string>
+    <string name="txtAddNotification">Add Notification</string>
+    <string name="txtActions">Actions</string>
+    <string name="txtAction">Action</string>
+    <string name="txtAddAction">Add Action</string>
+    <string name="txtSave">Save</string>
 </resources>
