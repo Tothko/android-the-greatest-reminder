@@ -48,6 +48,7 @@
 
             <EditText
                 android:id="@+id/etReminderDate"
+                android:focusable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"/>
 
                 <Button
+                    android:id="@+id/btnAddAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
