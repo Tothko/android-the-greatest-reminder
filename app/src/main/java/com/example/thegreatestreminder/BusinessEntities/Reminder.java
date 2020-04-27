@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Reminder {
 
+    private long id;
     private String name;
     private String detail;
     private Date triggerDate;
@@ -34,5 +35,13 @@ public class Reminder {
 
     public ReminderAction getAction(){
         return action;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

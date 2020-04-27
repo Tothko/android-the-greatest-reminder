@@ -3,10 +3,19 @@ package com.example.thegreatestreminder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.BusinessLogic.ReminderService;
+import com.example.thegreatestreminder.DAO.IReminderRepository;
+import com.example.thegreatestreminder.Utils.Converters.DateTimeConverter;
 import com.example.thegreatestreminder.Utils.Helpers.ControlsHelper;
+
+import java.text.ParseException;
+import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -19,6 +28,8 @@ public class DetailActivity extends AppCompatActivity {
     Button btnAddNotification;
     Button btnAddAction;
 
+    ReminderService reminderService;
+
     private void setupControlsReferences(){
         etName = findViewById(R.id.etReminderName);
         etDetail = findViewById(R.id.etReminderDetail);
@@ -30,12 +41,32 @@ public class DetailActivity extends AppCompatActivity {
         btnAddAction = findViewById(R.id.btnAddAction);
     }
 
+    private Reminder getReminder() throws ParseException {
+        String name = this.etName.getText().toString();
+        String detail = this.etDetail.getText().toString();
+        Date triggerDate = DateTimeConverter.dateTimeFromString(this.etDate.getText().toString(),this.etTime.getText().toString());
+        return new Reminder(name,detail,triggerDate);
+    }
+
+    private void onSaveClick(View v){
+        try {
+            this.reminderService.addReminder(getReminder());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast errorToast = Toast.makeText(this,R.string.invalid_date_error,Toast.LENGTH_SHORT);
+            errorToast.show();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        this.reminderService = DependencyFactory.getInstance(this).getReminderService();
 
         setupControlsReferences();
+
+        btnSave.setOnClickListener(this::onSaveClick);
 
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);

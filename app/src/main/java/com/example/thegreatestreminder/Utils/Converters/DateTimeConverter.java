@@ -2,6 +2,7 @@ package com.example.thegreatestreminder.Utils.Converters;
 
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,4 +24,12 @@ public class DateTimeConverter {
     public static String dateTimeToString(Date date){
         return DATE_TIME_FORMAT.format(date);
     }
+
+    public static Date dateTimeFromString(String str) throws ParseException { return DATE_TIME_FORMAT.parse(str);}
+
+    public static Date dateTimeFromString(String dateStr,String timeStr) throws ParseException {
+        String str = dateStr + " " + timeStr;
+        return dateTimeFromString(str);
+    }
+
 }

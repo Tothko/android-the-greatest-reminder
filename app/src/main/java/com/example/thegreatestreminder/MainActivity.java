@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadReminders(){
         this.reminders = new ArrayList<>();
-        this.reminders.add(new Reminder());
-        this.reminders.add(new Reminder());
+       // this.reminders.add(new Reminder());
+       // this.reminders.add(new Reminder());
     }
 
     private void deleteReminder(Reminder reminder){
