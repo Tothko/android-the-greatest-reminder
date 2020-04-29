@@ -50,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
     private void onSaveClick(View v){
         try {
             this.reminderService.addReminder(getReminder());
+            this.finish();
         } catch (ParseException e) {
             e.printStackTrace();
             Toast errorToast = Toast.makeText(this,R.string.invalid_date_error,Toast.LENGTH_SHORT);
@@ -58,6 +59,11 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void onAddNotifClick(View v){
+        AddNotificationDialog dialog = new AddNotificationDialog(this);
+        dialog.show();
+    }
+
+    private void onAddActionClick(View v){
 
     }
 
@@ -71,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(this::onSaveClick);
         btnAddNotification.setOnClickListener(this::onAddNotifClick);
+        btnAddAction.setOnClickListener(this::onAddActionClick);
 
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);
