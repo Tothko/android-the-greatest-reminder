@@ -1,7 +1,9 @@
 package com.example.thegreatestreminder.BusinessEntities;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Reminder {
 
@@ -9,13 +11,15 @@ public class Reminder {
     private String name;
     private String detail;
     private Date triggerDate;
-    private ReminderAction action;
-    private Notification notification;
+    private ArrayList<ReminderAction> actions;
+    private ArrayList<Notification> notifications;
 
     public Reminder(String name,String detail,Date triggerDate){
         this.name = name;
         this.detail = detail;
         this.triggerDate = triggerDate;
+        this.actions = new ArrayList<>();
+        this.notifications = new ArrayList<>();
     }
 
     public String getName() {
@@ -34,8 +38,8 @@ public class Reminder {
         return triggerDate;
     }
 
-    public ReminderAction getAction(){
-        return action;
+    public List<ReminderAction> getActions(){
+        return actions;
     }
 
     public long getId() {
@@ -46,15 +50,23 @@ public class Reminder {
         this.id = id;
     }
 
-    public void setAction(ReminderAction action) {
-        this.action = action;
+    public boolean hasActions(){
+        return this.actions.size() > 0;
     }
 
-    public Notification getNotification() {
-        return notification;
+    public boolean hasNotifications(){
+        return this.notifications.size() > 0;
     }
 
-    public void setNotification(Notification notification) {
-        this.notification = notification;
+    public void addAction(ReminderAction action) {
+        this.actions.add(action);
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void addNotification(Notification notification) {
+        this.notifications.add(notification);
     }
 }

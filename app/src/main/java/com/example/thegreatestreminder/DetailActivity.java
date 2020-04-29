@@ -57,6 +57,10 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    private void onAddNotifClick(View v){
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,7 @@ public class DetailActivity extends AppCompatActivity {
         setupControlsReferences();
 
         btnSave.setOnClickListener(this::onSaveClick);
+        btnAddNotification.setOnClickListener(this::onAddNotifClick);
 
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);
