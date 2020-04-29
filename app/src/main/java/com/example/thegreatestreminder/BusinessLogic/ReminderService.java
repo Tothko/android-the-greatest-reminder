@@ -46,6 +46,6 @@ public class ReminderService {
     }
 
     public Reminder getReminder(long reminderId) {
-        return new Reminder("ahoj","debilko",new Date());
+        return reminderRepository.get(reminderId);
     }
 }

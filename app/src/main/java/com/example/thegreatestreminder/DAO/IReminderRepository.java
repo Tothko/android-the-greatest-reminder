@@ -12,4 +12,6 @@ public interface IReminderRepository {
     Reminder addReminder(Reminder reminder);
 
     List<Reminder> readAll();
+
+    Reminder get(long reminderId);
 }

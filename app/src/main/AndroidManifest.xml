@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thegreatestreminder">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AlarmedActivity"></activity>
         <activity android:name=".DetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -17,13 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:process=":remote" android:name=".BusinessLogic.AlarmReceiver">
+
+        <receiver
+            android:name=".BusinessLogic.AlarmReceiver"
+            android:process=":remote">
             <intent-filter>
-                <action android:name="mypackage.START_ALARM" >
-                </action>
+                <action android:name="mypackage.START_ALARM"></action>
             </intent-filter>
         </receiver>
     </application>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"></uses-permission>
+
 </manifest>

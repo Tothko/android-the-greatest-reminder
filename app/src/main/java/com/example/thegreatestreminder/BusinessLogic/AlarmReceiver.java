@@ -2,21 +2,21 @@ package com.example.thegreatestreminder.BusinessLogic;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Icon;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.thegreatestreminder.AlarmedActivity;
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import com.example.thegreatestreminder.DependencyFactory;
+import com.example.thegreatestreminder.MainActivity;
 import com.example.thegreatestreminder.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -31,17 +31,21 @@ public class AlarmReceiver extends BroadcastReceiver {
         Reminder reminder = reminderService.getReminder(reminderId);
 
        try {
+           Intent intent1 = new Intent(context, AlarmedActivity.class);
+           intent1.putExtra("reminderId",reminderId);
+           PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent1,0);
            //Define Notification Manager
            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
            //Define sound URI
-           Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+           Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                   .setContentIntent(pendingIntent)
                    .setSmallIcon(R.drawable.ic_launcher_background)
                    .setContentTitle(reminder.getName())
                    .setContentText(reminder.getDetail())
-                   .setSound(soundUri); //This sets the sound to play
+                   .setSound(soundUri);
 
            // === Removed some obsoletes
            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
