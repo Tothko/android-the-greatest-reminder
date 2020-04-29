@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import com.example.thegreatestreminder.BusinessLogic.ReminderService;
-import com.example.thegreatestreminder.DAO.IReminderRepository;
 import com.example.thegreatestreminder.Utils.Converters.DateTimeConverter;
 import com.example.thegreatestreminder.Utils.Helpers.ControlsHelper;
 

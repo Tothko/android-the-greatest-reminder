@@ -24,6 +24,6 @@ public class DependencyFactory {
     }
 
     public ReminderService getReminderService(){
-        return new ReminderService(getReminderRepository());
+        return new ReminderService(ctx,getReminderRepository());
     }
 }

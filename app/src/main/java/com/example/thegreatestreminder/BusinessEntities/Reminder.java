@@ -10,6 +10,7 @@ public class Reminder {
     private String detail;
     private Date triggerDate;
     private ReminderAction action;
+    private Notification notification;
 
     public Reminder(String name,String detail,Date triggerDate){
         this.name = name;
@@ -43,5 +44,17 @@ public class Reminder {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setAction(ReminderAction action) {
+        this.action = action;
+    }
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
     }
 }

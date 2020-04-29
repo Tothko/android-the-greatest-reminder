@@ -9,6 +9,8 @@ import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import com.example.thegreatestreminder.DAO.IReminderRepository;
 import com.example.thegreatestreminder.Utils.Helpers.DBOpenHelper;
 
+import java.util.List;
+
 import static com.example.thegreatestreminder.Constants.SQLConstants.TABLE_NAME;
 
 public class SQLiteReminderRepository implements IReminderRepository {
@@ -46,5 +48,10 @@ public class SQLiteReminderRepository implements IReminderRepository {
         long id = stmt.executeInsert();
         reminder.setId(id);
         return reminder;
+    }
+
+    @Override
+    public List<Reminder> readAll() {
+        return null;
     }
 }
