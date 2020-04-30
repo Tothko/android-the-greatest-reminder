@@ -8,7 +8,7 @@
     <string name="txtTriggerDate">Trigger Date</string>
     <string name="txtReminderTime">Trigger Time</string>
     <string name="txtNotifyBefore">Notify before</string>
-    <string name="txtNotifications">Notifications</string>
+    <string name="txtNotifications">Additional Notifications</string>
     <string name="txtAddNotification">Add Notification</string>
     <string name="txtActions">Actions</string>
     <string name="txtAction">Action</string>

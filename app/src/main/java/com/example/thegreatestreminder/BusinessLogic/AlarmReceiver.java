@@ -76,7 +76,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             List<Notification> additionalNotifications = reminder.getNotifications();
 
             for (Notification notification: additionalNotifications) {
-                notification.fire();
+                notification.fire(reminder,ctx);
             }
         }
     }

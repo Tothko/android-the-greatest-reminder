@@ -1,7 +1,10 @@
 package com.example.thegreatestreminder.BusinessEntities;
 
-public class Notification {
-    public void fire(){
+import android.content.Context;
 
-    }
+public interface Notification {
+    enum Type{SMS,EMAIL};
+    void fire(Reminder reminder, Context ctx);
+    String getReceiver();
+    Type getType();
 }
