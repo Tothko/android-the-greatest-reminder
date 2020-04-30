@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -46,10 +45,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         // === Removed some obsoletes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            String channelId = "Your_channel_id";
+            String channelId = "TheUltimateDoggoChannelId";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
-                    "Channel human readable title",
+                    "The Dog likes to play with the cat",
                     NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
             mBuilder.setChannelId(channelId);

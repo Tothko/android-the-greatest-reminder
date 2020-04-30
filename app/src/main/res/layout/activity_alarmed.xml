@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AlarmedActivity">
 
     <TextView
+        android:id="@+id/txtReminderName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="you suck"/>
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtReminderDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
