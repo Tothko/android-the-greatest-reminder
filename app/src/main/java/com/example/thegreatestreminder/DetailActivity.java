@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.thegreatestreminder.BusinessEntities.Notification;
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
-import com.example.thegreatestreminder.BusinessEntities.ReminderAction;
 import com.example.thegreatestreminder.BusinessLogic.ReminderService;
 import com.example.thegreatestreminder.Utils.Adapters.NotificationArrayAdapter;
 import com.example.thegreatestreminder.Utils.Converters.DateTimeConverter;
@@ -34,14 +33,11 @@ public class DetailActivity extends AppCompatActivity {
 
     Button btnSave;
     Button btnAddNotification;
-    Button btnAddAction;
 
     ListView lvNotif;
-    ListView lvActions;
 
     ReminderService reminderService;
     List<Notification> notificationList;
-    List<ReminderAction> actionList;
 
     private void setupControlsReferences(){
         etName = findViewById(R.id.etReminderName);
@@ -51,9 +47,7 @@ public class DetailActivity extends AppCompatActivity {
 
         btnSave = findViewById(R.id.btnSaveDetail);
         btnAddNotification = findViewById(R.id.btnAddNotification);
-        btnAddAction = findViewById(R.id.btnAddAction);
 
-        lvActions = findViewById(R.id.lvDetailActions);
         lvNotif = findViewById(R.id.lvDetailNotifications);
     }
 
@@ -124,13 +118,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         this.reminderService = DependencyFactory.getInstance(this).getReminderService();
         this.notificationList = new ArrayList<>();
-        this.actionList = new ArrayList<>();
 
         setupControlsReferences();
 
         btnSave.setOnClickListener(this::onSaveClick);
         btnAddNotification.setOnClickListener(this::onAddNotifClick);
-        btnAddAction.setOnClickListener(this::onAddActionClick);
 
         lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
 

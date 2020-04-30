@@ -11,14 +11,12 @@ public class Reminder {
     private String name;
     private String detail;
     private Date triggerDate;
-    private ArrayList<ReminderAction> actions;
     private ArrayList<Notification> notifications;
 
     public Reminder(String name,String detail,Date triggerDate){
         this.name = name;
         this.detail = detail;
         this.triggerDate = triggerDate;
-        this.actions = new ArrayList<>();
         this.notifications = new ArrayList<>();
     }
 
@@ -38,10 +36,6 @@ public class Reminder {
         return triggerDate;
     }
 
-    public List<ReminderAction> getActions(){
-        return actions;
-    }
-
     public long getId() {
         return id;
     }
@@ -50,16 +44,8 @@ public class Reminder {
         this.id = id;
     }
 
-    public boolean hasActions(){
-        return this.actions.size() > 0;
-    }
-
     public boolean hasNotifications(){
         return this.notifications.size() > 0;
-    }
-
-    public void addAction(ReminderAction action) {
-        this.actions.add(action);
     }
 
     public List<Notification> getNotifications() {
