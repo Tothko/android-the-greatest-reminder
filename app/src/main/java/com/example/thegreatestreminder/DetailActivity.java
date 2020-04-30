@@ -61,7 +61,14 @@ public class DetailActivity extends AppCompatActivity {
         String name = this.etName.getText().toString();
         String detail = this.etDetail.getText().toString();
         Date triggerDate = DateTimeConverter.dateTimeFromString(this.etDate.getText().toString(),this.etTime.getText().toString());
-        return new Reminder(name,detail,triggerDate);
+        Reminder reminder = new Reminder(name,detail,triggerDate);
+
+        for (Notification n :
+                notificationList) {
+            reminder.addNotification(n);
+        }
+
+        return reminder;
     }
 
     private void onSaveClick(View v){

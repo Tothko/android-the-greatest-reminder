@@ -21,7 +21,7 @@ public class EmailNotification implements Notification {
         String text = reminder.getName() + "\r\n" + reminder.getDetail();
         String[] receivers = { getReceiver() };
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Notification from " + R.string.app_name);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Notification from " + ctx.getResources().getString(R.string.app_name));
         emailIntent.putExtra(Intent.EXTRA_TEXT, text);
         ctx.startActivity(emailIntent);
     }

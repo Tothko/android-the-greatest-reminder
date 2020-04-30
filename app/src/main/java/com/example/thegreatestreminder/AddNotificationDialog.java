@@ -69,6 +69,9 @@ public class AddNotificationDialog extends Dialog implements View.OnClickListene
 
     public Notification getNotification(){
         String receiver = etNotifReceiver.getText().toString();
+        if(receiver.isEmpty())
+            return null;
+
         if(spinner.getSelectedItemId() == 0) {
             return new EmailNotification(receiver);
         }

@@ -16,7 +16,8 @@ public class SmsNotification implements Notification {
     @Override
     public void fire(Reminder reminder, Context ctx) {
         SmsManager smsManager = SmsManager.getDefault();
-        String text = "Notification from " + R.string.app_name + "\r\n" + reminder.getName() + "\r\n" + reminder.getDetail();
+        String text = "Notification from " + ctx.getResources().getString(R.string.app_name) +
+                "\r\n" + reminder.getName() + "\r\n" + reminder.getDetail();
         smsManager.sendTextMessage(getReceiver(), null, text, null, null);
     }
 

@@ -18,6 +18,7 @@ public class ReminderService {
     public ReminderService(Context ctx,IReminderRepository reminderRepository){
         this.ctx = ctx;
         this.reminderRepository = reminderRepository;
+        getReminder(2);
     }
 
     private void validateReminder(Reminder reminder){
@@ -37,7 +38,7 @@ public class ReminderService {
 
         Intent intent = new Intent(ctx, AlarmReceiver.class);
         intent.putExtra("reminderId",reminder.getId());
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(ctx,25132,intent,0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(ctx,(int)reminder.getId(),intent,0);
 
         Date triggerDate = reminder.getTriggerDateTime();
         alarmManager.set(AlarmManager.RTC_WAKEUP, /*triggerDate.getTime()*/ System.currentTimeMillis() + 5000L,alarmIntent);
