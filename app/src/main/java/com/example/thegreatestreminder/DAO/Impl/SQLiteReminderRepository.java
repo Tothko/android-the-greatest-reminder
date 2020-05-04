@@ -11,6 +11,8 @@ import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import com.example.thegreatestreminder.BusinessEntities.SmsNotification;
 import com.example.thegreatestreminder.DAO.IReminderRepository;
 import com.example.thegreatestreminder.Utils.Helpers.DBOpenHelper;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,7 +89,32 @@ public class SQLiteReminderRepository implements IReminderRepository {
 
     @Override
     public List<Reminder> readAll() {
-        return null;
+        List reminders;
+
+        Cursor cursor = db.query(
+                TABLE_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+
+      reminders = new ArrayList<Reminder>();
+        while(cursor.moveToNext()) {
+
+                Reminder reminder = new Reminder(cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAIL)),
+                        new Date(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_DATE))));
+                reminder.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ID)));
+            }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+
+        return reminders;
     }
 
     private void loadNotifications(Reminder reminder){
