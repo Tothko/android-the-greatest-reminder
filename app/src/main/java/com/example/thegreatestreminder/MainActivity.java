@@ -1,6 +1,9 @@
 package com.example.thegreatestreminder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.Utils.Adapters.ReminderAdapter;
 import com.example.thegreatestreminder.Utils.Adapters.ReminderArrayAdapter;
 import com.example.thegreatestreminder.Utils.Converters.DurationConverter;
 
@@ -18,8 +22,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listViewMain;
+    //private ListView listViewMain;
+    private RecyclerView recyclerViewMain;
     private ArrayList<Reminder> reminders;
+    private ReminderAdapter rAdapter;
 
     private Button btnAdd;
 
@@ -30,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
      * Finds and assigns view by id for all the references used in this activity
      */
     private void setUpReferences(){
-        listViewMain = findViewById(R.id.lvMain);
-
+        //listViewMain = findViewById(R.id.lvMain);
+        recyclerViewMain = findViewById(R.id.rvMain);
         btnAdd = findViewById(R.id.btnAddRecord);
     }
 
@@ -48,21 +54,31 @@ public class MainActivity extends AppCompatActivity {
      * Sets up listview
      * - onItemClickListener
       */
-    private void setUpListView(){
-        listViewMain.setOnItemClickListener((parent,view,position,id) -> {
+    /*private void setUpListView(){
+
+        listViewMain.setOnClickListener((parent,view,position,id) -> {
             Reminder entity = reminders.get(position);
             Duration durationUntilFired = entity.getDurationUntilFired();
             String durationAsString = DurationConverter.durationToString(durationUntilFired);
             String text = String.format("It takes \'%s\' until this will be reminded",durationAsString);
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         });
-    }
+    }*/
 
+
+    private void setUpRecyclerView(){
+
+        rAdapter = new ReminderAdapter(reminders);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerViewMain.setLayoutManager(mLayoutManager);
+        recyclerViewMain.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMain.setAdapter(rAdapter);
+    }
     /**
      * Refreshes the listview
      * should be called when there are a new data available
      */
-    private void refreshListView(){
+   /* private void refreshListView(){
         ReminderArrayAdapter adapter = new ReminderArrayAdapter(this,reminders);
         adapter.setOnItemDelete((reminder) -> {
             deleteReminder(reminder);
@@ -73,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listViewMain.setAdapter(adapter);
+    }*/
+
+    private void refreshRecyclerView(){
+        /*rAdapter = ReminderAdapter(reminders);
+        rAdapter.setOnItemDelete((reminder) -> {
+            deleteReminder(reminder);
+        });
+
+        rAdapter.setOnItemEdit((reminder) ->{
+            editReminder(reminder);
+        });*/
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerViewMain.setLayoutManager(mLayoutManager);
+        recyclerViewMain.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMain.setAdapter(rAdapter);
     }
 
     /* -----------Methods for handling data access ---------------- */
@@ -102,10 +133,12 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("The Greatest Reminder");
 
         this.setUpReferences();
-        this.setUpListView();
+        //this.setUpListView();
+        this.setUpRecyclerView();
         this.setUpButtonAdd();
 
         this.loadReminders();
-        this.refreshListView();
+        //this.refreshListView();
+        this.refreshRecyclerView();
     }
 }
