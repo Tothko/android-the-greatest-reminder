@@ -3,6 +3,7 @@ package com.example.thegreatestreminder.BusinessEntities;
 import android.content.Context;
 import android.telephony.SmsManager;
 
+
 import com.example.thegreatestreminder.R;
 
 public class SmsNotification implements Notification {

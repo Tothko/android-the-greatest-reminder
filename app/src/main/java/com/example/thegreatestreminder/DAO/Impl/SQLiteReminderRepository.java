@@ -1,9 +1,12 @@
 package com.example.thegreatestreminder.DAO.Impl;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.nfc.Tag;
+import android.util.Log;
 
 import com.example.thegreatestreminder.BusinessEntities.EmailNotification;
 import com.example.thegreatestreminder.BusinessEntities.Notification;
@@ -38,13 +41,32 @@ public class SQLiteReminderRepository implements IReminderRepository {
     }
 
     @Override
-    public void deleteReminder(Reminder reminder) {
+    public int deleteReminder(Reminder reminder) {
 
+        String selection = KEY_ID + " LIKE ?";
+
+        String[] selectionArg =  {""+reminder.getId()};
+
+        int deletedRows = db.delete(TABLE_NAME, selection, selectionArg);
+        return deletedRows;
     }
 
     @Override
     public void editReminder(Reminder reminder) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, reminder.getName());
+        values.put(KEY_DETAIL, reminder.getName());
+        values.put(KEY_DATE, reminder.getName());
 
+
+        String selection = KEY_ID + " LIKE ?";
+        String[] selectionArgs = { ""+reminder.getId()   };
+
+        int count = db.update(
+                TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
     }
 
     @Override
@@ -89,27 +111,28 @@ public class SQLiteReminderRepository implements IReminderRepository {
 
     @Override
     public List<Reminder> readAll() {
-        List reminders;
+        ArrayList reminders = new ArrayList<Reminder>();
 
         Cursor cursor = db.query(
-                TABLE_NAME,   // The table to query
-                null,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                TABLE_NAME,
+                new String[] { KEY_ID, KEY_NAME,KEY_DETAIL,KEY_DATE },
+                null,
+                null,
+                null,
+                null,
+                null
         );
 
-      reminders = new ArrayList<Reminder>();
-        while(cursor.moveToNext()) {
+
+        if (cursor.moveToFirst()) {
+            do {
 
                 Reminder reminder = new Reminder(cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME)),
                         cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAIL)),
                         new Date(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_DATE))));
                 reminder.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ID)));
+            }while (cursor.moveToNext()) ;
             }
-
         if (!cursor.isClosed()) {
             cursor.close();
         }

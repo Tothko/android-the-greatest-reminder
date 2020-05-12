@@ -4,24 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.BusinessLogic.ReminderService;
 import com.example.thegreatestreminder.Utils.Adapters.ReminderArrayAdapter;
 import com.example.thegreatestreminder.Utils.Converters.DurationConverter;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listViewMain;
-    private ArrayList<Reminder> reminders;
-
     private Button btnAdd;
+
+    private List<Reminder> reminders;
+
+    private ReminderService reminderService;
 
     //Constants for child activities
     final static int REMIND_DETAIL = 123;
@@ -63,16 +68,20 @@ public class MainActivity extends AppCompatActivity {
      * should be called when there are a new data available
      */
     private void refreshListView(){
+        loadReminders();
         ReminderArrayAdapter adapter = new ReminderArrayAdapter(this,reminders);
-        adapter.setOnItemDelete((reminder) -> {
+
+       /* adapter.setOnItemDelete((reminder) -> {
             deleteReminder(reminder);
+
         });
 
         adapter.setOnItemEdit((reminder) ->{
             editReminder(reminder);
-        });
 
-        listViewMain.setAdapter(adapter);
+        });*/
+
+        adapter.notifyDataSetChanged();
     }
 
     /* -----------Methods for handling data access ---------------- */
@@ -81,17 +90,22 @@ public class MainActivity extends AppCompatActivity {
      * Loads all the reminders from the data acces object into reminders arraylist
      */
     private void loadReminders(){
-        this.reminders = new ArrayList<>();
+        this.reminders = reminderService.readAll();
        // this.reminders.add(new Reminder());
        // this.reminders.add(new Reminder());
     }
 
-    private void deleteReminder(Reminder reminder){
+    private int deleteReminder(Reminder reminder){
+        int deletedReminders = reminderService.deleteReminder(reminder);
+        refreshListView();
+        Log.println(Log.DEBUG, "Delete", "You succesfully deleted "+deletedReminders+ " reminders");
+        return deletedReminders;
 
     }
 
     private void editReminder(Reminder reminder){
-
+        reminderService.editReminder(reminder);
+        refreshListView();
     }
 
     /* -----------Activity Overrides and event handlers---------------- */
@@ -101,11 +115,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setTitle("The Greatest Reminder");
 
+        this.reminderService = DependencyFactory.getInstance(this).getReminderService();
+        this.loadReminders();
         this.setUpReferences();
         this.setUpListView();
         this.setUpButtonAdd();
 
-        this.loadReminders();
+
         this.refreshListView();
     }
 }

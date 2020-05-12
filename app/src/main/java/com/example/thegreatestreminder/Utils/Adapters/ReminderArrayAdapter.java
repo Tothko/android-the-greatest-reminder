@@ -27,7 +27,7 @@ public class ReminderArrayAdapter extends ArrayAdapter<Reminder> {
         void execute(Reminder reminder);
     }
 
-    private ArrayList<Reminder> reminders;
+    private List<Reminder> reminders;
     private ListItemCallback deleteCallback;
     private ListItemCallback editCallback;
 
@@ -64,7 +64,7 @@ public class ReminderArrayAdapter extends ArrayAdapter<Reminder> {
         txtDetail.setText(entity.getDetail());
     }
 
-    public ReminderArrayAdapter(@NonNull Context context, @NonNull ArrayList<Reminder> data) {
+    public ReminderArrayAdapter(@NonNull Context context, @NonNull List<Reminder> data) {
         super(context, 0,data);
         this.reminders = data;
     }

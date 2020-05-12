@@ -5,7 +5,7 @@ import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import java.util.List;
 
 public interface IReminderRepository {
-    void deleteReminder(Reminder reminder);
+    int deleteReminder(Reminder reminder);
 
     void editReminder(Reminder reminder);
 

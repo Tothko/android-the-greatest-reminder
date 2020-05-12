@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -105,6 +106,13 @@ public class DetailActivity extends AppCompatActivity {
                 notificationList.add(notif);
                 lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
             }
+        });
+    }
+
+    private void onAddLocatioClick(){
+        btnLocation.setOnClickListener((View v) -> {
+            Intent x = new Intent(this, DetailActivity.class);
+            startActivityForResult(x,LOCATION_ACTIVITY);
         });
     }
 
