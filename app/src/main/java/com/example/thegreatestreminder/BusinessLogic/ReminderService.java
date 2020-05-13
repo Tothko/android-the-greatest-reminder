@@ -8,7 +8,9 @@ import android.content.Intent;
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
 import com.example.thegreatestreminder.DAO.IReminderRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReminderService {
 
@@ -18,7 +20,6 @@ public class ReminderService {
     public ReminderService(Context ctx,IReminderRepository reminderRepository){
         this.ctx = ctx;
         this.reminderRepository = reminderRepository;
-        getReminder(2);
     }
 
     private void validateReminder(Reminder reminder){
@@ -48,5 +49,9 @@ public class ReminderService {
 
     public Reminder getReminder(long reminderId) {
         return reminderRepository.get(reminderId);
+    }
+
+    public ArrayList<Reminder> getAllReminders(){
+        return this.reminderRepository.readAll();
     }
 }

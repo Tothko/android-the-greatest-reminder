@@ -82,9 +82,7 @@ public class MainActivity extends AppCompatActivity {
      * Loads all the reminders from the data acces object into reminders arraylist
      */
     private void loadReminders(){
-        this.reminders = new ArrayList<>();
-       // this.reminders.add(new Reminder());
-       // this.reminders.add(new Reminder());
+        this.reminders = DependencyFactory.getInstance(this).getReminderService().getAllReminders();
     }
 
     private void deleteReminder(Reminder reminder){
