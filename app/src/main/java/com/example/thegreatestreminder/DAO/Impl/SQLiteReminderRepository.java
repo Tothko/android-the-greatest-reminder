@@ -8,12 +8,14 @@ import android.database.sqlite.SQLiteStatement;
 import com.example.thegreatestreminder.BusinessEntities.EmailNotification;
 import com.example.thegreatestreminder.BusinessEntities.Notification;
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.BusinessEntities.ReminderFilter;
 import com.example.thegreatestreminder.BusinessEntities.SmsNotification;
 import com.example.thegreatestreminder.DAO.IReminderRepository;
 import com.example.thegreatestreminder.Utils.BitmapUtil;
 import com.example.thegreatestreminder.Utils.Helpers.DBOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -95,10 +97,20 @@ public class SQLiteReminderRepository implements IReminderRepository {
     }
 
     @Override
-    public ArrayList<Reminder> readAll() {
+    public ArrayList<Reminder> readAll(ReminderFilter filter) {
         ArrayList<Reminder> list = new ArrayList<>();
+
+        Date now = new Date();
+        String selection = filter.show == ReminderFilter.ShowType.ACTIVE ? KEY_DATE+">?" : null;
+        String [] selectionArgs = filter.show == ReminderFilter.ShowType.ACTIVE ? new String[] { String.valueOf(now.getTime()) } : null;
+        String orderBy = filter.order == ReminderFilter.OrderType.EXPIRATION ? KEY_DATE : KEY_NAME;
+
+        if(!filter.asc)
+            orderBy += " DESC";
+
         Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID },
-                null, null, null, null, null);
+                selection, selectionArgs, null, null, orderBy);
+
         if (cursor.moveToFirst()) {
             do {
                 long id = cursor.getLong(0);

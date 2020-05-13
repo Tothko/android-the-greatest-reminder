@@ -17,4 +17,7 @@
     <string name="invalid_date_error">Inserted date and time is not valid</string>
     <string name="txtSendTo">Send To</string>
     <string name="txtAddImage">Add Image</string>
+    <string name="ordering">Order by</string>
+    <string name="txtShowMode">All/Active</string>
+    <string name="txtExpiration">Expiration</string>
 </resources>

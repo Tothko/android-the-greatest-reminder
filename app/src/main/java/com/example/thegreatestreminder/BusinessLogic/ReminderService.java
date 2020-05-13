@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.BusinessEntities.ReminderFilter;
 import com.example.thegreatestreminder.DAO.IReminderRepository;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class ReminderService {
         return reminderRepository.get(reminderId);
     }
 
-    public ArrayList<Reminder> getAllReminders(){
-        return this.reminderRepository.readAll();
+    public ArrayList<Reminder> getAllReminders(ReminderFilter filter){
+        return this.reminderRepository.readAll(filter);
     }
 }
