@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.DAO.Impl.MailjetEmailClient;
 import com.example.thegreatestreminder.Utils.Adapters.ReminderArrayAdapter;
 import com.example.thegreatestreminder.Utils.Converters.DurationConverter;
 
