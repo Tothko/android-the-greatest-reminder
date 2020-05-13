@@ -37,10 +37,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(reminder.getName())
                 .setContentText(reminder.getDetail())
+                .setSmallIcon(R.drawable.ic_launcher_background)
                 .setSound(soundUri);
+
+        /*if(reminder.getPhoto() == null)
+            mBuilder.setSmallIcon(R.drawable.ic_launcher_background);
+        else
+            mBuilder.setLargeIcon(reminder.getPhoto());*/
 
         // === Removed some obsoletes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)

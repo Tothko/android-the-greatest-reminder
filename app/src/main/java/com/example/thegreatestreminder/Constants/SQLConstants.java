@@ -11,5 +11,6 @@ public class SQLConstants {
     public final static String KEY_TYPE = "type";
     public final static String KEY_RECEIVER = "receiver";
     public final static String KEY_REMINDER_ID = "reminderId";
+    public final static String KEY_PHOTO = "photo";
     public static final int DB_VERSION = 3;
 }

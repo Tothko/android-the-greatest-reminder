@@ -3,7 +3,9 @@ package com.example.thegreatestreminder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
@@ -28,5 +30,11 @@ public class AlarmedActivity extends AppCompatActivity {
 
         txtName.setText(reminder.getName());
         txtDetail.setText(reminder.getDetail());
+
+        Bitmap photo = reminder.getPhoto();
+        if(photo != null){
+            ImageView img = findViewById(R.id.imgAlarmed);
+            img.setImageBitmap(reminder.getPhoto());
+        }
     }
 }

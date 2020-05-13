@@ -1,5 +1,9 @@
 package com.example.thegreatestreminder.BusinessEntities;
 
+import android.graphics.Bitmap;
+
+import com.example.thegreatestreminder.Utils.SerializableBitmap;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +15,7 @@ public class Reminder {
     private String name;
     private String detail;
     private Date triggerDate;
+    private SerializableBitmap photo;
     private ArrayList<Notification> notifications;
 
     public Reminder(String name,String detail,Date triggerDate){
@@ -54,5 +59,15 @@ public class Reminder {
 
     public void addNotification(Notification notification) {
         this.notifications.add(notification);
+    }
+
+    public Bitmap getPhoto() {
+        if(photo != null)
+            return photo.getBitmap();
+        return null;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = new SerializableBitmap(photo);
     }
 }

@@ -1,14 +1,20 @@
 package com.example.thegreatestreminder;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,20 +25,27 @@ import com.example.thegreatestreminder.Utils.Adapters.NotificationArrayAdapter;
 import com.example.thegreatestreminder.Utils.Converters.DateTimeConverter;
 import com.example.thegreatestreminder.Utils.Helpers.ControlsHelper;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
+
+    final static int CAMERA_REQUEST = 1;
 
     EditText etName;
     EditText etDetail;
     EditText etDate;
     EditText etTime;
 
+    ImageView img;
+
     Button btnSave;
     Button btnAddNotification;
+    Button btnAddImage;
 
     ListView lvNotif;
 
@@ -45,8 +58,11 @@ public class DetailActivity extends AppCompatActivity {
         etDate = findViewById(R.id.etReminderDate);
         etTime = findViewById(R.id.etReminderTime);
 
+        img = findViewById(R.id.imgDetail);
+
         btnSave = findViewById(R.id.btnSaveDetail);
         btnAddNotification = findViewById(R.id.btnAddNotification);
+        btnAddImage = findViewById(R.id.btnAddImage);
 
         lvNotif = findViewById(R.id.lvDetailNotifications);
     }
@@ -60,6 +76,10 @@ public class DetailActivity extends AppCompatActivity {
         for (Notification n :
                 notificationList) {
             reminder.addNotification(n);
+        }
+
+        if(img.getVisibility() == View.VISIBLE){
+            reminder.setPhoto(((BitmapDrawable)img.getDrawable()).getBitmap());
         }
 
         return reminder;
@@ -108,9 +128,18 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    private void onAddImageClick(View v){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+        }
+    }
+
     private void onAddActionClick(View v){
 
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +152,26 @@ public class DetailActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(this::onSaveClick);
         btnAddNotification.setOnClickListener(this::onAddNotifClick);
+        btnAddImage.setOnClickListener(this::onAddImageClick);
 
         lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
 
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);
+
+        Date currentDate = new Date();
+        etDate.setText(DateTimeConverter.dateToString(currentDate));
+        etTime.setText(DateTimeConverter.timeToString(new Time(0, 0,0)));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            img.setImageBitmap(imageBitmap);
+            this.img.setVisibility(View.VISIBLE);
+        }
     }
 }

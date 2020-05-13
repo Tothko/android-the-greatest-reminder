@@ -10,6 +10,7 @@ import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_DATE;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_DETAIL;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_ID;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_NAME;
+import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_PHOTO;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_RECEIVER;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_REMINDER_ID;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_TYPE;
@@ -30,6 +31,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 KEY_ID + " INTEGER PRIMARY KEY, "+
                 KEY_NAME+" TEXT, "+
                 KEY_DETAIL+" TEXT, "+
+                KEY_PHOTO+" BLOB, "+
                 KEY_DATE+" INTEGER);");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_NOTIF

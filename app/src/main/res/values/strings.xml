@@ -16,4 +16,5 @@
     <string name="txtSave">Save</string>
     <string name="invalid_date_error">Inserted date and time is not valid</string>
     <string name="txtSendTo">Send To</string>
+    <string name="txtAddImage">Add Image</string>
 </resources>
