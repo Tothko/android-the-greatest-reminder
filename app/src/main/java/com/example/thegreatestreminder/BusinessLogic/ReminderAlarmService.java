@@ -12,29 +12,35 @@ import java.util.Date;
 class ReminderAlarmService {
 
     Context ctx;
+    AlarmManager alarmManager;
 
     public ReminderAlarmService(Context ctx){
         this.ctx = ctx;
+        this.alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+    }
+
+    private PendingIntent createIntent(long reminderId,int flags){
+        Intent intent = new Intent(ctx, AlarmReceiver.class);
+        intent.putExtra("reminderId",reminderId);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(ctx,(int)reminderId,intent,flags);
+        return alarmIntent;
     }
 
     public void addReminder(Reminder reminder){
-        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(ctx, AlarmReceiver.class);
-        intent.putExtra("reminderId",reminder.getId());
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(ctx,(int)reminder.getId(),intent,0);
+        PendingIntent alarmIntent = createIntent(reminder.getId(),0);
 
         Date triggerDate = reminder.getTriggerDateTime();
         alarmManager.set(AlarmManager.RTC_WAKEUP, /*triggerDate.getTime()*/ System.currentTimeMillis() + 5000L,alarmIntent);
     }
 
     public void deleteReminder(long reminderId){
-        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(ctx, AlarmReceiver.class);
-        intent.putExtra("reminderId",reminderId);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(ctx,(int)reminderId,intent,0);
+        PendingIntent alarmIntent = createIntent(reminderId,0);
 
         alarmManager.cancel(alarmIntent);
+    }
+
+    public void editReminder(Reminder reminder){
+        this.deleteReminder(reminder.getId());
+        this.addReminder(reminder);
     }
 }
