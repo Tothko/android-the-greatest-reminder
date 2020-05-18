@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void editReminder(Reminder reminder){
-
+        Intent x = new Intent(this, DetailActivity.class);
+        x.putExtra("reminderId",reminder.getId());
+        this.startActivityForResult(x,REMIND_DETAIL);
     }
 
     /* -----------Activity Overrides and event handlers---------------- */

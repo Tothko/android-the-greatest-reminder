@@ -28,7 +28,6 @@ import com.example.thegreatestreminder.Utils.Helpers.ControlsHelper;
 import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +50,15 @@ public class DetailActivity extends AppCompatActivity {
 
     ReminderService reminderService;
     List<Notification> notificationList;
+
+    private boolean isEditing(){
+        Bundle bundle = getIntent().getExtras();
+        return bundle != null && bundle.containsKey("reminderId");
+    }
+
+    private long getEditedId(){
+        return getIntent().getExtras().getLong("reminderId");
+    }
 
     private void setupControlsReferences(){
         etName = findViewById(R.id.etReminderName);
@@ -82,12 +90,20 @@ public class DetailActivity extends AppCompatActivity {
             reminder.setPhoto(((BitmapDrawable)img.getDrawable()).getBitmap());
         }
 
+        if(isEditing())
+            reminder.setId(getEditedId());
+
         return reminder;
     }
 
     private void onSaveClick(View v){
         try {
-            this.reminderService.addReminder(getReminder());
+            if(isEditing()) {
+                this.reminderService.editReminder(getReminder());
+            }else{
+                this.reminderService.addReminder(getReminder());
+            }
+
             this.setResult(1);
             this.finish();
         } catch (ParseException e) {
@@ -116,6 +132,15 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    private void refreshNotifList(){
+        NotificationArrayAdapter adapter = new NotificationArrayAdapter(this,notificationList);
+        adapter.setOnItemDelete((Notification notif) -> {
+            this.notificationList.remove(notif);
+            refreshNotifList();
+        });
+        lvNotif.setAdapter(adapter);
+    }
+
     private void onAddNotifClick(View v){
         AddNotificationDialog dialog = new AddNotificationDialog(this);
         dialog.show();
@@ -124,7 +149,7 @@ public class DetailActivity extends AppCompatActivity {
             if(notif != null){
                 checkPermisions(notif);
                 notificationList.add(notif);
-                lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
+                refreshNotifList();
             }
         });
     }
@@ -136,10 +161,36 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private void onAddActionClick(View v){
+    private void setupValues(){
+        if(isEditing()){
+            long id = getEditedId();
 
+            Reminder reminder = reminderService.getReminder(id);
+
+            etName.setText(reminder.getName());
+            etDetail.setText(reminder.getDetail());
+            etDate.setText(DateTimeConverter.dateToString(reminder.getTriggerDateTime()));
+            etTime.setText(DateTimeConverter.timeToString(new Time(reminder.getTriggerDateTime().getTime())));
+
+            Bitmap image = reminder.getPhoto();
+            if(image != null){
+                this.img.setVisibility(View.VISIBLE);
+                this.img.setImageBitmap(image);
+            }
+
+            for (Notification notif :
+                    reminder.getNotifications()) {
+                notificationList.add(notif);
+            }
+
+            refreshNotifList();
+        }
+        else{
+            Date currentDate = new Date();
+            etDate.setText(DateTimeConverter.dateToString(currentDate));
+            etTime.setText(DateTimeConverter.timeToString(new Time(currentDate.getTime())));
+        }
     }
-
 
 
     @Override
@@ -155,14 +206,11 @@ public class DetailActivity extends AppCompatActivity {
         btnAddNotification.setOnClickListener(this::onAddNotifClick);
         btnAddImage.setOnClickListener(this::onAddImageClick);
 
-        lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
-
+        refreshNotifList();
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);
 
-        Date currentDate = new Date();
-        etDate.setText(DateTimeConverter.dateToString(currentDate));
-        etTime.setText(DateTimeConverter.timeToString(new Time(0, 0,0)));
+        setupValues();
     }
 
     @Override

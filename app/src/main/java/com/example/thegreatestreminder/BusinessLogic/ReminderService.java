@@ -51,4 +51,11 @@ public class ReminderService {
         this.alarmService.deleteReminder(reminderId);
         this.reminderRepository.deleteReminder(reminderId);
     }
+
+    public void editReminder(Reminder reminder){
+        this.reminderRepository.editReminder(reminder);
+
+        this.alarmService.editReminder(reminder);
+    }
+
 }
