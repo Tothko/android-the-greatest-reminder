@@ -88,6 +88,7 @@ public class DetailActivity extends AppCompatActivity {
     private void onSaveClick(View v){
         try {
             this.reminderService.addReminder(getReminder());
+            this.setResult(1);
             this.finish();
         } catch (ParseException e) {
             e.printStackTrace();

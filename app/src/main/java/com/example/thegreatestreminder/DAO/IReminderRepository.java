@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IReminderRepository {
-    void deleteReminder(Reminder reminder);
+    void deleteReminder(long reminderId);
 
     void editReminder(Reminder reminder);
 
