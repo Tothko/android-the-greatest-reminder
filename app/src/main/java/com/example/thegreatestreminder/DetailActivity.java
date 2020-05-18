@@ -140,6 +140,37 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    private void setupValues(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null && bundle.containsKey("reminderId")){
+            long id = bundle.getLong("reminderId");
+
+            Reminder reminder = reminderService.getReminder(id);
+
+            etName.setText(reminder.getName());
+            etDetail.setText(reminder.getDetail());
+            etDate.setText(DateTimeConverter.dateToString(reminder.getTriggerDateTime()));
+            etTime.setText(DateTimeConverter.timeToString(new Time(reminder.getTriggerDateTime().getTime())));
+
+            Bitmap image = reminder.getPhoto();
+            if(image != null){
+                this.img.setVisibility(View.VISIBLE);
+                this.img.setImageBitmap(image);
+            }
+
+            for (Notification notif :
+                    reminder.getNotifications()) {
+                notificationList.add(notif);
+            }
+
+            lvNotif.setAdapter(new NotificationArrayAdapter(this,notificationList));
+        }
+        else{
+            Date currentDate = new Date();
+            etDate.setText(DateTimeConverter.dateToString(currentDate));
+            etTime.setText(DateTimeConverter.timeToString(new Time(currentDate.getTime())));
+        }
+    }
 
 
     @Override
@@ -160,9 +191,7 @@ public class DetailActivity extends AppCompatActivity {
         ControlsHelper.setupEditDateBehaviour(this,etDate);
         ControlsHelper.setupEditTimeBehaviour(this,etTime);
 
-        Date currentDate = new Date();
-        etDate.setText(DateTimeConverter.dateToString(currentDate));
-        etTime.setText(DateTimeConverter.timeToString(new Time(0, 0,0)));
+        setupValues();
     }
 
     @Override
