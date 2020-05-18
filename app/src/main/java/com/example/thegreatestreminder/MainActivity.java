@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     //Constants for child activities
     final static int REMIND_DETAIL = 123;
-    final static int REMIND_DETAIL_EDIT = 124;
 
     /**
      * Finds and assigns view by id for all the references used in this activity
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private void editReminder(Reminder reminder){
         Intent x = new Intent(this, DetailActivity.class);
         x.putExtra("reminderId",reminder.getId());
-        this.startActivityForResult(x,REMIND_DETAIL_EDIT);
+        this.startActivityForResult(x,REMIND_DETAIL);
     }
 
     /* -----------Activity Overrides and event handlers---------------- */
