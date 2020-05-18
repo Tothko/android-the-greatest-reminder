@@ -15,9 +15,7 @@ import com.example.thegreatestreminder.Utils.BitmapUtil;
 import com.example.thegreatestreminder.Utils.Helpers.DBOpenHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_DATE;
 import static com.example.thegreatestreminder.Constants.SQLConstants.KEY_DETAIL;
@@ -34,8 +32,6 @@ public class SQLiteReminderRepository implements IReminderRepository {
 
     private SQLiteDatabase db;
 
-
-
     public  SQLiteReminderRepository(Context ctx){
         DBOpenHelper openHelper = new DBOpenHelper(ctx);
         db = openHelper.getWritableDatabase();
@@ -43,38 +39,19 @@ public class SQLiteReminderRepository implements IReminderRepository {
 
     @Override
     public void deleteReminder(long reminderId) {
-        final String DELETE_STMT_NOTIF = "DELETE FROM " + TABLE_NAME_NOTIF +
-                " WHERE " + KEY_REMINDER_ID + " = ?";
-
-        SQLiteStatement stmt = db.compileStatement(DELETE_STMT_NOTIF);
-
-        stmt.bindLong(1,reminderId);
-
-        stmt.executeUpdateDelete();
+        deleteReminderNotifications(get(reminderId));
 
         final String DELETE_STMT = "DELETE FROM " + TABLE_NAME +
                 " WHERE " + KEY_ID + " = ?";
 
-        stmt = db.compileStatement(DELETE_STMT);
+        SQLiteStatement stmt = db.compileStatement(DELETE_STMT);
 
         stmt.bindLong(1,reminderId);
 
         stmt.executeUpdateDelete();
     }
 
-    @Override
-    public void editReminder(Reminder reminder) {
-
-    }
-
-    @Override
-    public Reminder addReminder(Reminder reminder) {
-        final String INSERT_STMT = "INSERT INTO " + TABLE_NAME +
-                " ("+KEY_NAME+","+KEY_DETAIL+","+KEY_DATE+","+KEY_PHOTO+")" +
-                " VALUES (?,?,?,?)";
-
-        SQLiteStatement stmt = db.compileStatement(INSERT_STMT);
-
+    private int bindReminder(SQLiteStatement stmt,Reminder reminder){
         int i = 1;
         stmt.bindString(i++,reminder.getName());
         stmt.bindString(i++,reminder.getDetail());
@@ -85,29 +62,76 @@ public class SQLiteReminderRepository implements IReminderRepository {
         else
             stmt.bindNull(i++);
 
-        long id = stmt.executeInsert();
-        reminder.setId(id);
+        return i;
+    }
 
+    private void bindNotification(SQLiteStatement stmt,Notification notification,long reminderId){
+        int typeAsInt = notification.getType() == Notification.Type.EMAIL ? 0 : 1;
+        int i = 1;
+        stmt.bindLong(i++,reminderId);
+        stmt.bindLong(i++,typeAsInt);
+        stmt.bindString(i++,notification.getReceiver());
+    }
+
+    @Override
+    public void editReminder(Reminder reminder) {
+        final String UPDATE_STMT = "UPDATE " + TABLE_NAME +
+                " SET " + KEY_NAME + " = ?, " + KEY_DETAIL + " = ?," +
+                KEY_DATE + " =?, " + KEY_PHOTO + " = ?"+
+                " WHERE " + KEY_ID + " = ?";
+
+        SQLiteStatement stmt = db.compileStatement(UPDATE_STMT);
+
+        int bindIndex = bindReminder(stmt,reminder);
+        stmt.bindLong(bindIndex,reminder.getId());
+        stmt.executeUpdateDelete();
+
+        deleteReminderNotifications(reminder);
+        addReminderNotifications(reminder);
+    }
+
+    private void addReminderNotifications(Reminder reminder){
         if(reminder.hasNotifications())
         {
             final String INSERT_NOTIF_STMT = "INSERT INTO " + TABLE_NAME_NOTIF +
                     " (" + KEY_REMINDER_ID + "," + KEY_TYPE + "," + KEY_RECEIVER + ")" +
                     " VALUES (?,?,?)";
 
-            stmt = db.compileStatement(INSERT_NOTIF_STMT);
+            SQLiteStatement stmt = db.compileStatement(INSERT_NOTIF_STMT);
 
             for (Notification notif:
-                 reminder.getNotifications()) {
-                int typeAsInt = notif.getType() == Notification.Type.EMAIL ? 0 : 1;
-                i = 1;
-                stmt.bindLong(i++,id);
-                stmt.bindLong(i++,typeAsInt);
-                stmt.bindString(i++,notif.getReceiver());
-
+                    reminder.getNotifications()) {
+                bindNotification(stmt,notif,reminder.getId());
                 stmt.executeInsert();
             }
         }
+    }
 
+    private void deleteReminderNotifications(Reminder reminder){
+        final String DELETE_NOTIF_STMT = "DELETE FROM " + TABLE_NAME_NOTIF +
+                " WHERE " + KEY_REMINDER_ID + " = ?";
+
+        SQLiteStatement stmt = db.compileStatement(DELETE_NOTIF_STMT);
+
+        stmt.bindLong(1,reminder.getId());
+
+        stmt.executeUpdateDelete();
+    }
+
+    @Override
+    public Reminder addReminder(Reminder reminder) {
+        final String INSERT_STMT = "INSERT INTO " + TABLE_NAME +
+                " ("+KEY_NAME+","+KEY_DETAIL+","+KEY_DATE+","+KEY_PHOTO+")" +
+                " VALUES (?,?,?,?)";
+
+        SQLiteStatement stmt = db.compileStatement(INSERT_STMT);
+
+        bindReminder(stmt,reminder);
+
+        long id = stmt.executeInsert();
+        reminder.setId(id);
+
+        addReminderNotifications(reminder);
 
         return reminder;
     }
