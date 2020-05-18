@@ -1,6 +1,7 @@
 package com.example.thegreatestreminder;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Reminder> reminders;
 
     private Button btnAdd;
+
+    private ReminderService reminderService;
 
     private boolean showAll = true;
     private boolean orderName = true;
@@ -93,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
      * Loads all the reminders from the data acces object into reminders arraylist
      */
     private void loadReminders(){
-        ReminderService service = DependencyFactory.getInstance(this).getReminderService();
-        this.reminders = service.getAllReminders(getFilter());
+        this.reminders = reminderService.getAllReminders(getFilter());
     }
 
     private ReminderFilter getFilter(){
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteReminder(Reminder reminder){
-
+        this.reminderService.deleteReminder(reminder.getId());
     }
 
     private void editReminder(Reminder reminder){
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setTitle("The Greatest Reminder");
 
+        this.reminderService = DependencyFactory.getInstance(this).getReminderService();
         this.setUpReferences();
         this.setUpListView();
         this.setUpButtonAdd();
@@ -152,6 +155,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REMIND_DETAIL){
+            this.refreshListView();
         }
     }
 }

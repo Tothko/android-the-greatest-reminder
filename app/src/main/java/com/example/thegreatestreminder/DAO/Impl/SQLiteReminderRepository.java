@@ -42,7 +42,7 @@ public class SQLiteReminderRepository implements IReminderRepository {
     }
 
     @Override
-    public void deleteReminder(Reminder reminder) {
+    public void deleteReminder(long reminderId) {
 
     }
 
