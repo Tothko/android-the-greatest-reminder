@@ -1,7 +1,9 @@
 package com.example.thegreatestreminder.DAO;
 
 import com.example.thegreatestreminder.BusinessEntities.Reminder;
+import com.example.thegreatestreminder.BusinessEntities.ReminderFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IReminderRepository {
@@ -11,7 +13,7 @@ public interface IReminderRepository {
 
     Reminder addReminder(Reminder reminder);
 
-    List<Reminder> readAll();
+    ArrayList<Reminder> readAll(ReminderFilter filter);
 
     Reminder get(long reminderId);
 }

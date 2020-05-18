@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:title="@string/ordering">
+            <menu>
+                <item
+                    android:id="@+id/itOrderAscDesc"
+                    android:title="Asc/Desc"/>
+                <item
+                    android:id="@+id/itOrderName"
+                    android:title="@string/txtName"/>
+                <item
+                    android:id="@+id/itOrderExpiration"
+                    android:title="@string/txtExpiration"/>
+            </menu>
+        </item>
+    </group>
+    <group>
+        <item
+            android:id="@+id/itShowMode"
+            android:title="@string/txtShowMode"/>
+    </group>
+</menu>
