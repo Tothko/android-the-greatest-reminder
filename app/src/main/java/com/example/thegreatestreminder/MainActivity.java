@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteReminder(Reminder reminder){
         this.reminderService.deleteReminder(reminder.getId());
+        this.refreshListView();
     }
 
     private void editReminder(Reminder reminder){

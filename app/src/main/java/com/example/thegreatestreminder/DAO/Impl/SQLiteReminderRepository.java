@@ -43,7 +43,23 @@ public class SQLiteReminderRepository implements IReminderRepository {
 
     @Override
     public void deleteReminder(long reminderId) {
+        final String DELETE_STMT_NOTIF = "DELETE FROM " + TABLE_NAME_NOTIF +
+                " WHERE " + KEY_REMINDER_ID + " = ?";
 
+        SQLiteStatement stmt = db.compileStatement(DELETE_STMT_NOTIF);
+
+        stmt.bindLong(1,reminderId);
+
+        stmt.executeUpdateDelete();
+
+        final String DELETE_STMT = "DELETE FROM " + TABLE_NAME +
+                " WHERE " + KEY_ID + " = ?";
+
+        stmt = db.compileStatement(DELETE_STMT);
+
+        stmt.bindLong(1,reminderId);
+
+        stmt.executeUpdateDelete();
     }
 
     @Override
