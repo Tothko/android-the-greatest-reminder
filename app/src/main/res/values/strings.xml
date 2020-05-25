@@ -20,4 +20,9 @@
     <string name="ordering">Order by</string>
     <string name="txtShowMode">All/Active</string>
     <string name="txtExpiration">Expiration</string>
+    <string name="name">Name</string>
+    <string name="detail">Detail</string>
+    <string name="triggerdate">TriggerDate</string>
+    <string name="trigger_time">Trigger Time</string>
+    <string name="save">Save</string>
 </resources>

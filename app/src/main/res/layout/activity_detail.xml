@@ -6,33 +6,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    android:background="@color/colorSurface"
     tools:context=".DetailActivity">
 
     <ScrollView
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <!-- Component for reminder name -->
 
+
+
             <com.google.android.material.textfield.TextInputLayout
-                app:startIconDrawable="@drawable/ic_add_alarm_24px"
+                android:id="@+id/etReminderName"
+                app:startIconDrawable="@drawable/ic_insert_comment_24px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="Name">
+                android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etReminderName"
+
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:inputType="text"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -52,11 +54,11 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                app:startIconDrawable="@drawable/ic_add_alarm_24px"
+                app:startIconDrawable="@drawable/ic_description_24px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="Detail">
+                android:hint="@string/detail">
 
                 <com.google.android.material.textfield.TextInputEditText
 
@@ -83,11 +85,11 @@
              <!-- Component for remminder date trigger -->
 
             <com.google.android.material.textfield.TextInputLayout
-                app:startIconDrawable="@drawable/ic_add_alarm_24px"
+                app:startIconDrawable="@drawable/ic_date_range_24px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="TriggerDate">
+                android:hint="@string/triggerdate">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etReminderDate"
@@ -111,11 +113,11 @@
              <!-- Component for reminder time trigger -->
 
             <com.google.android.material.textfield.TextInputLayout
-                app:startIconDrawable="@drawable/ic_add_alarm_24px"
+                app:startIconDrawable="@drawable/ic_access_time_24px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="Trigger Time">
+                android:hint="@string/trigger_time">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etReminderTime"
@@ -177,12 +179,13 @@
                 <ListView
                     android:id="@+id/lvDetailNotifications"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="NestedScrolling" />
 
                 <Button
                     android:id="@+id/btnAddNotification"
                     app:icon="@drawable/ic_add_alarm_24px"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -197,8 +200,6 @@
                 android:id="@+id/btnAddImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
 
                 android:text="@string/txtAddImage"
                 app:icon="@drawable/ic_add_a_photo_black_24dp"
@@ -209,20 +210,22 @@
                 android:id="@+id/imgDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                 />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnSaveDetail"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|right"
         android:text="@string/txtSave"
-         />
+        app:icon="@drawable/ic_save_24px"/>
 
 </LinearLayout>

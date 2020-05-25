@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:baselineAligned="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSurface"
     android:orientation="horizontal">
 
     <!--Linear layout that holds name and detail text vertically-->
@@ -15,7 +15,8 @@
         <TextView
             android:id="@+id/txtListItemMain"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
         <TextView
             android:id="@+id/txtListItemDetail"
@@ -35,14 +36,16 @@
             android:id="@+id/btnDeleteRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
+            app:icon="@drawable/ic_delete_24px"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:text="@string/list_item_delete"/>
 
         <Button
             android:id="@+id/btnEditRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
+            app:icon="@drawable/ic_edit_24px"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:text="@string/list_item_edit"/>
     </LinearLayout>
 
