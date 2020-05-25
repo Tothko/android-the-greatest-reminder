@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">TheGreatestReminder</string>
+    <string name="list_item_delete">Delete</string>
+    <string name="list_item_edit">Edit</string>
+    <string name="add_reminder">Add</string>
+    <string name="txtName">Name</string>
+    <string name="txtDetail">Detail</string>
+    <string name="txtTriggerDate">Trigger Date</string>
+    <string name="txtReminderTime">Trigger Time</string>
+    <string name="txtNotifyBefore">Notify before</string>
+    <string name="txtNotifications">Additional Notifications</string>
+    <string name="txtAddNotification">Add Notification</string>
+    <string name="txtActions">Actions</string>
+    <string name="txtAction">Action</string>
+    <string name="txtAddAction">Add Action</string>
+    <string name="txtSave">Save</string>
+    <string name="invalid_date_error">Inserted date and time is not valid</string>
+    <string name="txtSendTo">Send To</string>
+    <string name="txtAddImage">Add Image</string>
+    <string name="ordering">Order by</string>
+    <string name="txtShowMode">All/Active</string>
+    <string name="txtExpiration">Expiration</string>
+    <string name="name">Name</string>
+    <string name="detail">Detail</string>
+    <string name="triggerdate">TriggerDate</string>
+    <string name="trigger_time">Trigger Time</string>
+    <string name="save">Save</string>
 </resources>
